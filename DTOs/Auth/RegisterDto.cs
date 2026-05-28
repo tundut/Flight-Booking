@@ -7,15 +7,15 @@ public class RegisterDto
 {
     [Required]
     [DefaultValue("Test")]
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     [Required]
     [EmailAddress]
     [DefaultValue("test@gmail.com")]
-    public string Email { get; set; }
+    public string Email { get; set; } = null!;
 
     [Required]
     [MinLength(6)]
     [DefaultValue("123456")]
-    public string Password { get; set; }
+    public string Password { get; set; } = null!;
 }

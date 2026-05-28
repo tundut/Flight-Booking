@@ -8,10 +8,10 @@ public class LoginDto
     [Required]
     [EmailAddress]
     [DefaultValue("test@gmail.com")]
-    public string Email { get; set; }
+    public string Email { get; set; } = null!;
 
     [Required]
     [MinLength(6)]
     [DefaultValue("123456")]
-    public string Password { get; set; }
+    public string Password { get; set; } = null!;
 }

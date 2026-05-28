@@ -1,9 +1,6 @@
-using System.ComponentModel.DataAnnotations.Schema;
+namespace FlightBooking.DTOs.Flight;
 
-namespace FlightBooking.Models;
-
-[Table("flights")]
-public class Flight
+public class FlightResponseDto
 {
     public int Id { get; set; }
     public string FlightNumber { get; set; } = null!;
@@ -14,6 +11,4 @@ public class Flight
     public decimal Price { get; set; }
     public int TotalSeats { get; set; }
     public int AvailableSeats { get; set; }
-
-    public List<Booking> Bookings { get; set; } = null!;
 }

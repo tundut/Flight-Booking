@@ -8,6 +8,7 @@ using FlightBooking.Interfaces;
 using FlightBooking.Models;
 using FlightBooking.DTOs.Auth;
 using FlightBooking.Data;
+using FlightBooking.Enums;
 
 namespace FlightBooking.Services;
 
@@ -29,7 +30,7 @@ public class AuthService : IAuthService
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role)
+            new Claim(ClaimTypes.Role, user.Role.ToString())
         };
 
         var key = new SymmetricSecurityKey(
@@ -67,7 +68,7 @@ public class AuthService : IAuthService
             Name = dto.Name,
             Email = dto.Email,
             Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-            Role = "Customer"
+            Role = UserRole.Customer
         };
 
         _context.Users.Add(user);
@@ -80,12 +81,17 @@ public class AuthService : IAuthService
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
+        if (user == null)
+        {
+            return "Wrong email or password";
+        }
+
         bool isPasswordValid = BCrypt.Net.BCrypt.Verify(
             dto.Password,
             user.Password
         );
 
-        if (user == null || !isPasswordValid)
+        if (!isPasswordValid)
         {
             return "Wrong email or password";
         }

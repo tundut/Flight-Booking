@@ -126,3 +126,4 @@ E:\Code\.NET\FlightBooking\obj\Debug\net8.0\refint\FlightBooking.dll
 E:\Code\.NET\FlightBooking\obj\Debug\net8.0\FlightBooking.pdb
 E:\Code\.NET\FlightBooking\obj\Debug\net8.0\FlightBooking.genruntimeconfig.cache
 E:\Code\.NET\FlightBooking\obj\Debug\net8.0\ref\FlightBooking.dll
+E:\Code\.NET\FlightBooking\obj\Debug\net8.0\FlightBooking.sourcelink.json

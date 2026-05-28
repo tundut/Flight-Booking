@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using FlightBooking.Models;
 using FlightBooking.Data;
+using FlightBooking.DTOs.Flight;
 
 namespace FlightBooking.Services;
 
@@ -11,24 +12,57 @@ public class FlightService
     {
         _context = context;
     }
-    public async Task<List<Flight>> GetAll()
+    private static FlightResponseDto ToFlightDto(Flight flight) => new()
     {
-        return await _context.Flights.ToListAsync();
+        Id = flight.Id,
+        FlightNumber = flight.FlightNumber,
+        From = flight.From,
+        To = flight.To,
+        DepartureTime = flight.DepartureTime,
+        ArrivalTime = flight.ArrivalTime,
+        Price = flight.Price,
+        TotalSeats = flight.TotalSeats,
+        AvailableSeats = flight.AvailableSeats
+    };
+    public async Task<List<FlightResponseDto>> GetAll()
+    {
+        var flights = await _context.Flights.ToListAsync();
+        return flights.Select(ToFlightDto).ToList();
     }
-    public async Task<Flight?> GetById(int id)
+    public async Task<FlightResponseDto?> GetById(int id)
     {
-        return await _context.Flights.FindAsync(id);
+        var flight = await _context.Flights.FindAsync(id);
+        return flight == null ? null : ToFlightDto(flight);
     }
-    public async Task<Flight> Create(Flight flight)
+    public async Task<FlightResponseDto> Create(CreateFlightDto dto)
     {
+        var exists = await _context.Flights.AnyAsync(f => f.FlightNumber == dto.FlightNumber);
+
+        if (exists)
+        {
+            throw new InvalidOperationException("Flight number already exists");
+        }
+
+        var flight = new Flight
+        {
+            FlightNumber = dto.FlightNumber,
+            From = dto.From,
+            To = dto.To,
+            DepartureTime = dto.DepartureTime,
+            ArrivalTime = dto.ArrivalTime,
+            Price = dto.Price,
+            TotalSeats = dto.TotalSeats,
+            AvailableSeats = dto.AvailableSeats
+        };
+
         _context.Flights.Add(flight);
         await _context.SaveChangesAsync();
 
-        return flight;
+        return ToFlightDto(flight);
     }
     public async Task<bool> Delete(int id)
     {
-        var flight = await GetById(id);
+        var flight = await _context.Flights.FindAsync(id);
         if (flight == null)
         {
             return false;
@@ -37,8 +71,9 @@ public class FlightService
         await _context.SaveChangesAsync();
         return true;
     }
-    public async Task<List<Flight>> Search(string from, string to)
+    public async Task<List<FlightResponseDto>> Search(string from, string to)
     {
-        return await _context.Flights.Where(f => f.From == from && f.To == to).ToListAsync();
+        var flights = await _context.Flights.Where(f => f.From == from && f.To == to).ToListAsync();
+        return flights.Select(ToFlightDto).ToList();
     }
 }
