@@ -53,14 +53,18 @@ public class AuthService : IAuthService
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public async Task<string> RegisterAsync(RegisterDto dto)
+    public async Task<RegisterResponseDto> RegisterAsync(RegisterDto dto)
     {
         var existedUser = await _context.Users
             .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
         if (existedUser != null)
         {
-            return "User with this email already exists";
+            return new RegisterResponseDto
+            {
+                Success = false,
+                Message = "User with this email already exists"
+            };
         }
 
         var user = new User()
@@ -73,28 +77,42 @@ public class AuthService : IAuthService
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
-        return "Register success";
+        return new RegisterResponseDto
+        {
+            Success = true,
+            Message = "Register successful"
+        };
     }
 
-    public async Task<string> LoginAsync(LoginDto dto)
+    public async Task<LoginResponseDto> LoginAsync(LoginDto dto)
     {
         var user = await _context.Users
             .FirstOrDefaultAsync(u => u.Email == dto.Email);
 
         if (user == null)
         {
-            return "Wrong email or password";
+            return new LoginResponseDto
+            {
+                Success = false,
+                Message = "Wrong email or password"
+            };
         }
 
-        bool isPasswordValid = BCrypt.Net.BCrypt.Verify(
-            dto.Password,
-            user.Password
-        );
-
-        if (!isPasswordValid)
+        if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
         {
-            return "Wrong email or password";
+            return new LoginResponseDto
+            {
+                Success = false,
+                Message = "Wrong email or password"
+            };
         }
-        return GenerateJwtToken(user);
+
+        return new LoginResponseDto
+        {
+            Success = true,
+            Token = GenerateJwtToken(user),
+            User = user.Name,
+            Message = "Login successful"
+        };
     }
 }

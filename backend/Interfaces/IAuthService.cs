@@ -4,6 +4,6 @@ namespace FlightBooking.Interfaces;
 
 public interface IAuthService
 {
-    Task<string> RegisterAsync(RegisterDto registerDto);
-    Task<string> LoginAsync(LoginDto dto);
+    Task<RegisterResponseDto> RegisterAsync(RegisterDto registerDto);
+    Task<LoginResponseDto> LoginAsync(LoginDto dto);
 }

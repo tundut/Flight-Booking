@@ -1,73 +1,41 @@
-# React + TypeScript + Vite
+# Tripma
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<br/>
+This is a Flight Booking UI template built using React and Tailwind CSS. It provides a sleek and user-friendly interface for users to search and book flights. The template is fully responsive and can be easily customized to fit your specific needs.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- User-friendly interface for flight search and booking
+- Responsive design, suitable for various devices and screen sizes
+- Easy customization with React components and Tailwind CSS utility classes
+- Well-structured codebase, following best practices and conventions
+- show warning and success messages.
 
-## React Compiler
+## Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+To use this template, you need to have the following installed on your machine:
 
-## Expanding the ESLint configuration
+- Node.js (version ....)
+- npm (version ....)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Installation
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. Clone the repository: git clone https://github.com/PrtHub/Tripma.git
+2. Install the dependencies: npm install
+3. To start the development server and view the template in your browser, run the following command: npm run dev
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Customization
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The Flight Booking UI template is highly customizable. You can modify the existing components or create new ones to suit your requirements. The main files and directories you may need to work with are:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- src/App.js: The main entry point of the application.
+- src/components & src/container: Directory containing reusable React components.
+- src/assets: All the icons, images, logos are here
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Deployment
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- To build the optimized production-ready version of the template, run the following command: npm run build
+This will create a build directory with the optimized and minified assets. You can then deploy this directory to your hosting platform of choice.
+
+## Contributing
+Contributions are welcome! If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request. Make sure to follow the existing coding style and guidelines.

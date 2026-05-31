@@ -73,7 +73,10 @@ public class FlightService
     }
     public async Task<List<FlightResponseDto>> Search(string from, string to)
     {
-        var flights = await _context.Flights.Where(f => f.From == from && f.To == to).ToListAsync();
+        var flights = await _context.Flights.Where(f =>
+            string.Equals(f.From.ToLower(), from.ToLower()) &&
+            string.Equals(f.To.ToLower(), to.ToLower()))
+            .ToListAsync();
         return flights.Select(ToFlightDto).ToList();
     }
 }

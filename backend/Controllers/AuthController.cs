@@ -19,7 +19,11 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Register(RegisterDto dto)
     {
         var result = await _authService.RegisterAsync(dto);
-        return Ok(result);
+        if (!result.Success)
+        {
+            return BadRequest(new { message = result.Message });
+        }
+        return Ok(new { message = result.Message });
     }
 
     // Login
@@ -27,6 +31,10 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login(LoginDto dto)
     {
         var result = await _authService.LoginAsync(dto);
-        return Ok(result);
+        if (!result.Success)
+        {
+            return BadRequest(new { message = result.Message });
+        }
+        return Ok(new { message = result.Message, user = result.User, token = result.Token });
     }
 }
